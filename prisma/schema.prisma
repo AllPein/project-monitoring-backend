@@ -1,0 +1,57 @@
+generator photon {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator docs {
+  provider = "node node_modules/prisma-docs-generator"
+}
+
+enum ROLE {
+  PROJECT_MANAGER
+  ADMIN
+  STUDENT
+}
+
+enum PROJECT_ROLE {
+  PARTICIPANT
+  TEAM_LEAD
+}
+
+
+model Project {
+  id              String        @id @default(uuid())
+  userId          String
+  participantId   String 
+  code            Int           @default(autoincrement())
+  avatar          String        @unique
+  participants    Participant[] 
+  repo            String
+  projectManager  User          @relation(fields: [userId], references: [id])
+  dueDate         DateTime
+}
+
+model User {
+  id            String   @id @default(uuid())
+  email         String?  @unique
+  fullName      String
+  group         String
+  projects      Project[]
+  role          ROLE
+}
+
+model Participant {
+  id           String       @id @default(uuid())
+  userId       String 
+  projectId    String
+  project      Project      @relation(fields: [projectId], references: [id])   
+  role         PROJECT_ROLE
+}
+
+
+
+
