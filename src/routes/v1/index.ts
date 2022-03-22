@@ -1,12 +1,10 @@
-import express from 'express';
-import weather from './weather';
-import * as currencyController from '../../controller/currency'
-import * as newsController from '../../controller/news'
+import express from 'express'
+import userRoutes from './user'
+import authRoutes from './user'
 
-const router = express.Router();
+const router = express.Router()
 
-router.use('/weather', weather);
-router.get('/currency', currencyController.findUnique)
-router.get('/news', newsController.findMany)
+router.use('/auth', authRoutes)
+router.use('/user', userRoutes)
 
-export default router;
+export default router

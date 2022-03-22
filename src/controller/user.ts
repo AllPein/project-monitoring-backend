@@ -1,11 +1,7 @@
-import { RequestHandler } from 'express';
-import httpStatus from 'http-status';
-import { prisma } from '../app';
-import { findEuclidianDistance, normalize } from '../util/math';
-import pick from '../util/pick';
-import { recognize } from '../util/recognize';
-
-const MAX_DISTANCE_THRESHOLD = 1
+import { RequestHandler } from 'express'
+import httpStatus from 'http-status'
+import { prisma } from '../app'
+import pick from '../util/pick'
 
 export const findMany: RequestHandler = async (req, res) => {
   try {
@@ -17,27 +13,7 @@ export const findMany: RequestHandler = async (req, res) => {
 }
 
 export const findUnique: RequestHandler = async (req, res) => {
-  const imageUrl = req.query.imageUrl
-  if (!imageUrl) {
-    res.send(httpStatus.BAD_REQUEST)
-  }
-
-  const embeddings = await recognize(imageUrl)
-  const users = await prisma.user.findMany()
-  if (!users) {
-    res.send(httpStatus[400])
-  }
-
-  const { distance, user } = users.reduce((acc: any, user) => {
-    acc = Math.min(acc, findEuclidianDistance(user.embeddings, embeddings))
-    return { distance: acc, user }
-  }, {})
-
-  if (distance >= MAX_DISTANCE_THRESHOLD) {
-    res.send(httpStatus[400])
-  }
- 
-  res.send(user)
+  res.send(pick(req.user, ['username', 'role', 'id']))
 }
 
 export const create: RequestHandler = async (req, res) => {
@@ -50,4 +26,4 @@ export const create: RequestHandler = async (req, res) => {
     console.log(err)
     res.sendStatus(httpStatus.BAD_REQUEST)
   }
-};
+}

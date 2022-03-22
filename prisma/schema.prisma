@@ -22,36 +22,40 @@ enum PROJECT_ROLE {
   TEAM_LEAD
 }
 
+enum TOKEN_TYPE {
+  AUTH
+  REFRESH
+}
 
 model Project {
-  id              String        @id @default(uuid())
-  userId          String
-  participantId   String 
-  code            Int           @default(autoincrement())
-  avatar          String        @unique
-  participants    Participant[] 
-  repo            String
-  projectManager  User          @relation(fields: [userId], references: [id])
-  dueDate         DateTime
+  id             String        @id @default(uuid())
+  userId         String
+  code           Int           @default(autoincrement())
+  avatar         String        @unique
+  participants   Participant[]
+  repo           String
+  projectManager User          @relation(fields: [userId], references: [id])
+  dueDate        DateTime
 }
 
 model User {
-  id            String   @id @default(uuid())
-  email         String?  @unique
-  fullName      String
+  id            String        @id @default(uuid())
+  email         String?       @unique
+  participantId String
+  firstName     String
+  lastName      String
   group         String
+  password      String
   projects      Project[]
   role          ROLE
+  participant   Participant[]
 }
 
 model Participant {
-  id           String       @id @default(uuid())
-  userId       String 
-  projectId    String
-  project      Project      @relation(fields: [projectId], references: [id])   
-  role         PROJECT_ROLE
+  id        String       @id @default(uuid())
+  userId    String
+  user      User         @relation(fields: [userId], references: [id])
+  projectId String
+  project   Project      @relation(fields: [projectId], references: [id])
+  role      PROJECT_ROLE
 }
-
-
-
-
