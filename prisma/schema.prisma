@@ -46,6 +46,7 @@ model User {
   lastName      String
   group         String
   password      String
+  avatarColor   String
   projects      Project[]
   role          ROLE
   participant   Participant[]
