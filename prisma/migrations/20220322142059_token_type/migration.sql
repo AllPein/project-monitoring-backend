@@ -1,2 +1,0 @@
--- CreateEnum
-CREATE TYPE "TOKEN_TYPE" AS ENUM ('AUTH', 'REFRESH');

@@ -31,5 +31,7 @@ export const errorHandler = (err, req, res, next) => {
     ...(config.env === 'development' && { stack: err.stack }),
   };
 
+  console.log(err.stack)
+
   res.status(statusCode).send(response);
 };

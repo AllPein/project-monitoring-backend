@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "predev": "npm run generate:prisma",
-    "dev": "cross-env NODE_ENV=development tsnd --no-notify --respawn ./src/index.ts",
+    "dev": "cross-env NODE_ENV=development tsnd --no-notify --respawn  ./src/index.ts",
     "prebuild": "npm run clean && npm run migrate && npm run generate:prisma",
     "build": "tsc",
     "seed": "ts-node prisma/seed.ts",
@@ -20,7 +20,7 @@
     "migrate:dev": "prisma migrate dev --preview-feature"
   },
   "dependencies": {
-    "@prisma/client": "2.19.0",
+    "@prisma/client": "^3.11.0",
     "@tensorflow/tfjs-node": "^3.14.0",
     "bcrypt": "5.0.1",
     "body-parser": "1.19.0",
@@ -50,7 +50,6 @@
     "@types/node-fetch": "^2.6.1",
     "@types/passport-jwt": "3.0.5",
     "@types/xml2js": "^0.4.9",
-    "prisma": "2.19.0",
-    "prisma-docs-generator": "0.3.0"
+    "prisma": "^3.11.0"
   }
 }

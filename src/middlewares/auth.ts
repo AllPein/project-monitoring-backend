@@ -7,6 +7,7 @@ import { User } from ".prisma/client"
 
 // @ts-ignore
 const verifyCallback = (req: Request, resolve, reject, requiredRights: string[]) => async (err, user: User, info) => {
+  console.log(user);
   if (err || info || !user) {
     return reject(new ApiError(httpStatus.UNAUTHORIZED, 'Please authenticate'))
   }

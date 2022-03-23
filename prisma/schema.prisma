@@ -1,14 +1,11 @@
 generator photon {
   provider = "prisma-client-js"
+  previewFeatures = ["fullTextSearch", "fullTextIndex"]
 }
 
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
-}
-
-generator docs {
-  provider = "node node_modules/prisma-docs-generator"
 }
 
 enum ROLE {
@@ -20,6 +17,7 @@ enum ROLE {
 enum PROJECT_ROLE {
   PARTICIPANT
   TEAM_LEAD
+  OWNER
 }
 
 enum TOKEN_TYPE {
@@ -28,28 +26,29 @@ enum TOKEN_TYPE {
 }
 
 model Project {
-  id             String        @id @default(uuid())
-  userId         String
-  code           Int           @default(autoincrement())
-  avatar         String        @unique
-  participants   Participant[]
-  repo           String
-  projectManager User          @relation(fields: [userId], references: [id])
-  dueDate        DateTime
+  id           String        @id @default(uuid())
+  code         Int           @unique @default(autoincrement())
+  name         String
+  description  String?
+  avatar       String        @unique
+  participants Participant[]
+  repo         String
+  dueDate      DateTime
+  userId       String?
+  User         User?         @relation(fields: [userId], references: [id])
 }
 
 model User {
-  id            String        @id @default(uuid())
-  email         String?       @unique
-  participantId String
-  firstName     String
-  lastName      String
-  group         String
-  password      String
-  avatarColor   String
-  projects      Project[]
-  role          ROLE
-  participant   Participant[]
+  id          String        @id @default(uuid())
+  email       String?       @unique
+  firstName   String
+  lastName    String
+  group       String
+  password    String
+  avatarColor String
+  projects    Project[]
+  role        ROLE
+  participant Participant[]
 }
 
 model Participant {

@@ -1,7 +1,7 @@
-import { TOKEN_TYPE, User } from '@prisma/client'
-import jwt from 'jsonwebtoken'
-import { prisma } from '../app'
-import config from '../config'
+import { User } from '@prisma/client';
+import jwt from 'jsonwebtoken';
+import { prisma } from '../app';
+import config from '../config';
 
 export const generateTokens = (
   user: Partial<User>,
@@ -17,15 +17,15 @@ export const generateTokens = (
     {
       expiresIn: 60 * 60 * 10,
     }
-  )
-  return token
-}
+  );
+  return token;
+};
 
-const verifyToken = (token: string, type: TOKEN_TYPE): boolean => {
+const verifyToken = (token: string, type: String): boolean => {
   try {
-    jwt.verify(token, config.jwtSecret)
-    return true
+    jwt.verify(token, config.jwtSecret);
+    return true;
   } catch (err) {
-    return false
+    return false;
   }
-}
+};

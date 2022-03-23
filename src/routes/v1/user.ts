@@ -1,11 +1,11 @@
-import express from 'express'
-import * as  userController from '../../controller/user'
-import auth from '../../middlewares/auth'
+import express from 'express';
+import * as userController from '../../controller/user';
+import auth from '../../middlewares/auth';
 
-const router = express.Router()
+const router = express.Router();
 
-router
-  .route('/')
-  .get(auth(), userController.findUnique)
+router.route('/').get(auth(), userController.findUnique);
+router.route('/all').get(auth(), userController.findMany);
+router.route('/search/:search').get(auth(), userController.search);
 
-export default router
+export default router;
