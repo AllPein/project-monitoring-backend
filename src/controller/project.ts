@@ -7,8 +7,7 @@ export const create: RequestHandler = async (req, res, next) => {
   try {
     const result = await prisma.project.create({
       data: {
-        ...req.body,
-        dueDate: new Date(req.body.dueDate),
+        ...req.body
       },
     });
     await prisma.user.update({
@@ -53,7 +52,20 @@ export const addParticipant: RequestHandler = async (req, res, next) => {
     await prisma.participant.create({
       data: req.body,
     });
-    res.send(true);
+
+    const result = await prisma.project.findUnique({
+      where: {
+        id: req.body.projectId,
+      },
+      include: {
+        participants: {
+          include: {
+            user: true
+          }
+        },
+      },
+    })
+    res.send(result);
   } catch (e) {
     next(new ApiError(400, e.toString()));
   }
@@ -69,6 +81,13 @@ export const update: RequestHandler = async (req, res, next) => {
         ...req.body,
         id: undefined,
       },
+      include: {
+        participants: {
+          include: {
+            user: true
+          }
+        },
+      }
     });
     res.send(result);
   } catch {
@@ -107,7 +126,6 @@ export const getUniqueProject: RequestHandler = async (req, res, next) => {
             user: true
           }
         },
-        
       },
     });
     if (result != null) {

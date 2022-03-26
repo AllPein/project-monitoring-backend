@@ -30,9 +30,9 @@ model Project {
   code         Int           @unique @default(autoincrement())
   name         String
   description  String?
-  avatar       String        @unique
+  avatar       String?       @unique
   participants Participant[]
-  repo         String
+  repo         String?
   dueDate      DateTime
   userId       String?
   User         User?         @relation(fields: [userId], references: [id])
@@ -43,7 +43,7 @@ model User {
   email       String?       @unique
   firstName   String
   lastName    String
-  group       String
+  group       String?
   password    String
   avatarColor String
   projects    Project[]

@@ -14,7 +14,7 @@ export const register = {
     password: Joi.string().min(5).required(),
     firstName: Joi.string().required(),
     lastName: Joi.string().required(),
-    group: Joi.string().required(),
+    group: Joi.string(),
     role: Joi.string().valid(...Object.keys(ROLE)),
   }),
 };

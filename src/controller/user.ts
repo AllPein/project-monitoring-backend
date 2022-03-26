@@ -61,3 +61,21 @@ export const create: RequestHandler = async (req, res) => {
     res.sendStatus(httpStatus.BAD_REQUEST);
   }
 };
+
+export const update: RequestHandler = async (req, res) => {
+  try {
+    const result = await prisma.user.update({
+      where: {
+        id: req.body.id,
+      },
+      data: {
+        ...req.body,
+        projects: undefined
+      },
+    });
+    res.send(exclude(result, ['password']));
+  } catch (err) {
+    console.log(err);
+    res.sendStatus(httpStatus.BAD_REQUEST);
+  }
+};

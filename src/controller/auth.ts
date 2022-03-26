@@ -18,6 +18,7 @@ export const login: RequestHandler = async (req, res) => {
       id: true,
       email: true,
       firstName: true,
+      avatarColor: true,
       lastName: true,
       group: true,
       projects: {
