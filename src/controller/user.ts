@@ -4,6 +4,7 @@ import { prisma } from '../app';
 import pick from '../util/pick';
 import { generateTokens } from '../services/token';
 import exclude from '../util/exclude';
+import { PROJECT_ROLE, ROLE } from '@prisma/client';
 
 export const findMany: RequestHandler = async (req, res) => {
   try {
@@ -19,28 +20,37 @@ export const findUnique: RequestHandler = async (req, res) => {
 };
 
 export const search: RequestHandler = async (req, res) => {
+  const s = req.params.search;
+  if (s == null || s.length == 0) {
+    res.send(
+      await prisma.user.findMany({
+        take: 20,
+      })
+    );
+    return;
+  }
   const result = await prisma.user.findMany({
     where: {
       OR: [
         {
           firstName: {
-            search: req.params['search'],
+            contains: s,
           },
         },
         {
           lastName: {
-            search: req.params['search'],
+            contains: s,
           },
         },
         {
           email: {
-            search: req.params['search'],
+            contains: s,
           },
         },
       ],
     },
   });
-  res.send(result);
+  res.send(result.map((v) => exclude(v, ['password'])));
 };
 
 export const create: RequestHandler = async (req, res) => {
@@ -70,7 +80,7 @@ export const update: RequestHandler = async (req, res) => {
       },
       data: {
         ...req.body,
-        projects: undefined
+        projects: undefined,
       },
     });
     res.send(exclude(result, ['password']));

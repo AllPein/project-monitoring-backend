@@ -15,11 +15,13 @@ export const update = {
   body: Joi.object().keys({
     id: Joi.string().required(),
     code: Joi.number().required(),
-    repo: Joi.string().uri(),
+    repo: Joi.string().uri().allow(''),
     avatar: Joi.string().uri(),
     dueDate: Joi.date(),
     name: Joi.string().max(50),
     description: Joi.string(),
+    reportUrl: Joi.string().allow(''),
+    reportName: Joi.string().allow('')
   }),
 };
 

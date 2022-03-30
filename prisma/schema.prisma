@@ -1,5 +1,5 @@
 generator photon {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
   previewFeatures = ["fullTextSearch", "fullTextIndex"]
 }
 
@@ -20,30 +20,27 @@ enum PROJECT_ROLE {
   OWNER
 }
 
-enum TOKEN_TYPE {
-  AUTH
-  REFRESH
-}
-
 model Project {
   id           String        @id @default(uuid())
   code         Int           @unique @default(autoincrement())
   name         String
   description  String?
   avatar       String?       @unique
+  reportUrl    String?
+  reportName   String?
   participants Participant[]
   repo         String?
   dueDate      DateTime
-  userId       String?
-  User         User?         @relation(fields: [userId], references: [id])
+  User         User[]         
 }
 
 model User {
   id          String        @id @default(uuid())
   email       String?       @unique
   firstName   String
+  ghUsername  String?       @default("")
   lastName    String
-  group       String?
+  group       String?       @default("")
   password    String
   avatarColor String
   projects    Project[]

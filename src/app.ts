@@ -17,6 +17,7 @@ app.use(bodyParser.json());
 app.use(helmet());
 app.use(passport.initialize());
 passport.use('jwt', jwtStrategy);
+app.use(express.static('reports'));
 
 app.use('/api/v1/', routes);
 app.get('/', (_req, res) => res.send('pong'));

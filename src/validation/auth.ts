@@ -16,6 +16,7 @@ export const register = {
     lastName: Joi.string().required(),
     group: Joi.string(),
     role: Joi.string().valid(...Object.keys(ROLE)),
+    ghUsername: Joi.string()
   }),
 };
 

@@ -12,7 +12,7 @@ router
   .post(auth(), validate(projectValidation.create), projectController.create)
   .patch(auth(), validate(projectValidation.update), projectController.update);
 
-router.route('/:id').get(auth(), projectController.getUniqueProject);
+router.route('/change-role').post(auth(), projectController.changeRole);
 router
   .route('/add-participant')
   .post(
@@ -20,5 +20,8 @@ router
     validate(projectValidation.addParticipant),
     projectController.addParticipant
   );
+router.route('/:id').get(auth(), projectController.getUniqueProject);
+router.route('/:code/commits').get(auth(), projectController.cyka);
+router.route('/:code/report').get(projectController.report);
 
 export default router;
